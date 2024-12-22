@@ -3,15 +3,14 @@ import express from 'express'
 import cors from 'cors'
 import nodemailer from 'nodemailer'
 
-// Import email templates
-// const companyTemplate = require('./templates/company');
-
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'mail.privateemail.com',
+    port: 465,
+    secure: true,
     auth: {
-        user: 'joshod27@gmail.com', // Replace with your email
-        pass: 'hlgq bmwk gppk dqyi', // Replace with your email password
+        user: 'info@mirusgrace.com', // Replace with your email
+        pass: 'MirusGrace@27', // Replace with your email password
     },
 });
 
@@ -35,17 +34,16 @@ transporter.use('compile', hbs(handlebarOptions));
 // Send Company Email
 app.post('/send-company', async (req, res) => {
     const { message, email } = req.body;
-    console.log('Called send-company api')
+
     try {
         await transporter.sendMail({
-            from: 'joshod27@gmail.com',
-            to: email,
+            from: email,
+            to: `info@mirusgrace.com`,
             subject: `Message from Mirus Grace`,
             template: 'company',
             context: {
                 message
             }
-            // html: companyTemplate({ message }),
         });
 
         res.status(200).json({ message: 'Company email sent successfully!' });
