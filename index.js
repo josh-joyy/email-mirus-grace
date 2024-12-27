@@ -53,6 +53,26 @@ app.post('/send-company', async (req, res) => {
     }
 });
 
+// Send Mg-Seedlings Email
+app.post('/mg-seedlings', async (req, res) => {
+    const { message, email, firstName, lastName, phone } = req.body;
+
+    try {
+        await transporter.sendMail({
+            from: `info@mirusgrace.com`,
+            to: `info@mirusgrace.com`,
+            subject: `Customer From MG-Seedlings`,
+            template: 'company',
+            context: {message, email, firstName, lastName, phone}
+        });
+
+        res.status(200).json({ message: 'Company email sent successfully!' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to send company email.' });
+    }
+});
+
 
 const PORT = 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
